@@ -1,0 +1,115 @@
+[
+  {
+    "id_pedido": 101,
+    "status": "ABERTO",
+    "data_criacao": "2026-11-01",
+    "categoria": "Alimentos",
+    "descricao": "Precisamos de cestas básicas e leite em pó para atender 40 famílias em situação de vulnerabilidade no bairro Vila Luzita.",
+    "itens": [
+      {"nome": "Cesta Básica", "quantidade": 40},
+      {"nome": "Leite em Pó Integral", "quantidade": 30}
+    ],
+    "instituicao": {
+      "id": 1,
+      "nome": "Instituto Mãos que Acolhem",
+      "endereco": "Av. Capitão Mário Toledo de Camargo, 1200 - Vila Luzita, Santo André - SP",
+      "latitude": -23.6945,
+      "longitude": -46.5082,
+      "media_avaliacao": 4.9
+    }
+  },
+  {
+    "id_pedido": 102,
+    "status": "ABERTO",
+    "data_criacao": "2026-11-03",
+    "categoria": "Vestuário e Agasalhos",
+    "descricao": "Campanha de arrecadação de roupas infantis, calçados e cobertores em bom estado para crianças de 2 a 10 anos.",
+    "itens": [
+      {"nome": "Cobertor de Casal/Solteiro", "quantidade": 25},
+      {"nome": "Roupas Infantis", "quantidade": 60}
+    ],
+    "instituicao": {
+      "id": 2,
+      "nome": "Casa da Criança Esperança",
+      "endereco": "Rua Catequese, 450 - Jardim, Santo André - SP",
+      "latitude": -23.6589,
+      "longitude": -46.5356,
+      "media_avaliacao": 4.8
+    }
+  },
+  {
+    "id_pedido": 103,
+    "status": "ABERTO",
+    "data_criacao": "2026-11-05",
+    "categoria": "Móveis e Eletrodomésticos",
+    "descricao": "Família teve casa atingida por enchente e necessita com urgência de geladeira usada funcionando, fogão e colchões.",
+    "itens": [
+      {"nome": "Geladeira", "quantidade": 1},
+      {"nome": "Colchão de Solteiro", "quantidade": 3}
+    ],
+    "instituicao": {
+      "id": 3,
+      "nome": "Núcleo Comunitário Parque Capuava",
+      "endereco": "Rua das Hortências, 890 - Parque Capuava, Santo André - SP",
+      "latitude": -23.6341,
+      "longitude": -46.5012,
+      "media_avaliacao": 4.7
+    }
+  },
+  {
+    "id_pedido": 104,
+    "status": "ABERTO",
+    "data_criacao": "2026-11-06",
+    "categoria": "Higiene e Limpeza",
+    "descricao": "Abrigo de idosos solicita fraldas geriátricas tamanhos G e XG, sabonetes líquidos e produtos de limpeza.",
+    "itens": [
+      {"nome": "Fralda Geriátrica G/XG", "quantidade": 100},
+      {"nome": "Água Sanitária e Desinfetante", "quantidade": 20}
+    ],
+    "instituicao": {
+      "id": 4,
+      "nome": "Lar São Vicente de Paulo",
+      "endereco": "Rua Coronel Alfredo Flaquer, 310 - Centro, Santo André - SP",
+      "latitude": -23.6632,
+      "longitude": -46.5284,
+      "media_avaliacao": 5.0
+    }
+  },
+  {
+    "id_pedido": 105,
+    "status": "ABERTO",
+    "data_criacao": "2026-11-07",
+    "categoria": "Educação e Tecnologia",
+    "descricao": "Projeto de inclusão digital busca notebooks usados, cadernos e mochilas escolares para jovens do ensino médio.",
+    "itens": [
+      {"nome": "Notebook usado", "quantidade": 5},
+      {"nome": "Kit Material Escolar", "quantidade": 30}
+    ],
+    "instituicao": {
+      "id": 5,
+      "nome": "Associação Futuro Digital ABC",
+      "endereco": "Av. Dom Pedro II, 780 - Campestre, Santo André - SP",
+      "latitude": -23.6498,
+      "longitude": -46.5411,
+      "media_avaliacao": 4.6
+    }
+  },
+  {
+    "id_pedido": 106,
+    "status": "ENCERRADO",
+    "data_criacao": "2026-10-15",
+    "categoria": "Alimentos",
+    "descricao": "Arrecadação de arroz e feijão para mutirão de outubro (meta já atingida).",
+    "itens": [
+      {"nome": "Arroz 5kg", "quantidade": 50}
+    ],
+    "instituicao": {
+      "id": 1,
+      "nome": "Instituto Mãos que Acolhem",
+      "endereco": "Av. Capitão Mário Toledo de Camargo, 1200 - Vila Luzita, Santo André - SP",
+      "latitude": -23.6945,
+      "longitude": -46.5082,
+      "media_avaliacao": 4.9
+    }
+  }
+]

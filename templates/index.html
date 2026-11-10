@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoaMatch IA — Triagem e Match de Doações</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F0EAD6;
+            color: #3E2723;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 820px;
+            width: 100%;
+            background: #FFFDF8;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(62, 39, 35, 0.1);
+            border: 1px solid #D7CCC8;
+        }
+        h1 { margin-top: 0; font-size: 1.8rem; }
+        p.sub { color: #5D4037; margin-bottom: 1.5rem; }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 12px;
+            border: 1px solid #A1887F;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            background: #FFFFFF;
+            color: #3E2723;
+        }
+        button {
+            margin-top: 1rem;
+            background-color: #3E2723;
+            color: #F0EAD6;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button:hover { background-color: #5D4037; }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .exemplos { margin-top: 0.8rem; font-size: 0.85rem; color: #6D4C41; }
+        .exemplos span {
+            text-decoration: underline;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        #resultado { margin-top: 2rem; display: none; }
+        .box-analise {
+            background: #EFEBE9;
+            padding: 1rem;
+            border-left: 5px solid #3E2723;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+        }
+        .alerta {
+            background: #FFF3E0;
+            border-left: 5px solid #E65100;
+            color: #BF360C;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+        }
+        .card {
+            border: 1px solid #BCAAA4;
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            background: #FFFFFF;
+        }
+        .badge {
+            display: inline-block;
+            background: #3E2723;
+            color: #F0EAD6;
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+        .msg-box {
+            background: #F5F5F5;
+            padding: 10px;
+            border-radius: 6px;
+            font-style: italic;
+            margin-top: 0.8rem;
+            border: 1px dashed #A1887F;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>SOLIA</h1>
+    <p class="sub">Assistente Inteligente de Triagem e Match de Doações</p>
+
+    <label for="consulta"><strong>O que você gostaria de doar hoje?</strong></label>
+    <textarea id="consulta" placeholder="Ex: Tenho 3 cestas básicas e 10 litros de leite para entregar em Santo André..."></textarea>
+
+    <div class="exemplos">
+        Testar exemplos:
+        <span onclick="preencher('Tenho 2 cestas básicas e latas de leite em pó perto da Vila Luzita.')">Alimentos</span>
+        <span onclick="preencher('Quero doar uma geladeira funcionando e dois colchões de solteiro.')">Móveis</span>
+        <span onclick="preencher('Tenho pacotes de fraldas geriátricas tamanho G e produtos de limpeza.')">Higiene</span>
+        <span onclick="preencher('Quero doar caixas de remédios controlados e comida vencida ontem.')">Caso de Falha/Alerta</span>
+    </div>
+
+    <button id="btnBuscar" onclick="buscarMatch()">Encontrar Onde Doar</button>
+
+    <div id="resultado"></div>
+</div>
+
+<script>
+    function preencher(texto) {
+        document.getElementById('consulta').value = texto;
+    }
+
+    async function buscarMatch() {
+        const consulta = document.getElementById('consulta').value;
+        const btn = document.getElementById('btnBuscar');
+        const resDiv = document.getElementById('resultado');
+
+        if (!consulta.trim()) return alert("Digite o que deseja doar.");
+
+        btn.disabled = true;
+        btn.innerText = "Analisando com RAG + Gemini...";
+        resDiv.style.display = "none";
+
+        try {
+            const response = await fetch('/api/recomendar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ consulta })
+            });
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.erro || "Erro desconhecido");
+            }
+
+            renderizar(data);
+        } catch (err) {
+            resDiv.innerHTML = `<div class="alerta"><strong>Erro:</strong> ${err.message}</div>`;
+            resDiv.style.display = "block";
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "Encontrar Onde Doar";
+        }
+    }
+
+    function renderizar(data) {
+        const ia = data.resultado_ia;
+        const rag = data.matches_rag;
+        const resDiv = document.getElementById('resultado');
+
+        let html = `
+            <div class="box-analise">
+                <strong>Status da Triagem:</strong> ${ia.status_triagem}<br><br>
+                <strong>Análise da IA:</strong> ${ia.analise_geral}
+            </div>
+        `;
+
+        if (ia.alerta_triagem) {
+            html += `<div class="alerta"><strong>⚠️ Alerta de Triagem:</strong> ${ia.alerta_triagem}</div>`;
+        }
+
+        if (ia.recomendacoes && ia.recomendacoes.length > 0) {
+            html += `<h3>Instituições Recomendadas</h3>`;
+            ia.recomendacoes.forEach(rec => {
+                const matchInfo = rag.find(m => m.id_pedido === rec.id_pedido);
+                const score = matchInfo ? `Similaridade RAG: ${(matchInfo.score_similaridade * 100).toFixed(1)}%` : '';
+                html += `
+                    <div class="card">
+                        <span class="badge">Pedido #${rec.id_pedido} ${score ? '• ' + score : ''}</span>
+                        <h4 style="margin: 4px 0;">${rec.instituicao}</h4>
+                        <small>${rec.endereco}</small>
+                        <p><strong>Por que doar aqui:</strong> ${rec.motivo_compatibilidade}</p>
+                        <div class="msg-box">
+                            <strong>Mensagem pronta para contato:</strong><br>
+                            "${rec.mensagem_pronta}"
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        resDiv.innerHTML = html;
+        resDiv.style.display = "block";
+    }
+</script>
+</body>
+</html>

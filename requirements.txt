@@ -1,0 +1,5 @@
+flask==3.0.3
+python-dotenv==1.0.1
+sentence-transformers==3.0.1
+numpy==1.26.4
+google-genai==0.3.0
